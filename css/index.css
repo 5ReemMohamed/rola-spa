@@ -4806,3 +4806,50 @@ body i.fa-arrow-left{
     }
 
 }
+
+.mobile-lang {
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+
+    .mobile-lang {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-inline-start: auto;
+        margin-inline-end: 15px;
+    }
+
+    .mobile-lang .lang-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+
+        background: transparent;
+        border: none;
+
+        color: var(--primary-color);
+
+        font-size: 13px;
+        font-weight: 700;
+
+        padding: 6px 8px;
+
+        cursor: pointer;
+    }
+
+    .mobile-lang .lang-btn i {
+        font-size: 16px;
+    }
+
+    .navbar-toggler {
+        margin-inline-start: 0;
+    }
+
+    .nav-actions .language-switcher {
+        display: none;
+    }
+}
