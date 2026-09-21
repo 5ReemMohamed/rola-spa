@@ -30,6 +30,10 @@ hero: {
     hotel: "فندقي",
     riyadh: "الرياض"
 },
+           floating: {
+        whatsapp: "واتساب",
+        phone: "اتصال"
+    },
 about: {
     imageAlt: "مركز رولا سبا للمساج والتدليك",
     label: "من نحن",
@@ -312,6 +316,10 @@ why: {
     hotel: "Hotel",
     riyadh: "Riyadh"
 },
+            floating: {
+        whatsapp: "WhatsApp",
+        phone: "Call"
+    },
 about: {
     imageAlt: "Rola Spa Massage & Treatment Center",
     label: "About Us",
