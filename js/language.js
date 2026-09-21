@@ -1,27 +1,44 @@
 (function () {
 
-    const supportedLanguages = ["ar", "en"];
+  
+    const supportedLanguages = [
+        "ar",
+        "en"
+    ];
 
+
+ 
     function getTranslation(object, path) {
 
         return path
             .split(".")
             .reduce(function (result, key) {
+
                 return result && result[key];
+
             }, object);
 
     }
 
 
+ 
     function getInitialLanguage() {
 
-        const params = new URLSearchParams(
-            window.location.search
-        );
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
 
-        const urlLanguage = params.get("lang");
 
-        if (supportedLanguages.includes(urlLanguage)) {
+        const urlLanguage =
+            params.get("lang");
+
+ 
+        if (
+            supportedLanguages.includes(
+                urlLanguage
+            )
+        ) {
 
             localStorage.setItem(
                 "siteLanguage",
@@ -29,47 +46,69 @@
             );
 
             return urlLanguage;
+
         }
 
 
+   
         const savedLanguage =
-            localStorage.getItem("siteLanguage");
+            localStorage.getItem(
+                "siteLanguage"
+            );
+
 
         if (
             supportedLanguages.includes(
                 savedLanguage
             )
         ) {
+
             return savedLanguage;
+
         }
 
 
+   
         return "ar";
+
     }
 
 
+ 
     let currentLanguage =
         getInitialLanguage();
 
 
-    function applyLanguage(language, updateUrl = true) {
+ 
+    function applyLanguage(
+        language,
+        updateUrl = true
+    ) {
 
+   
         if (
-            !supportedLanguages.includes(language)
+            !supportedLanguages.includes(
+                language
+            )
         ) {
+
             language = "ar";
+
         }
 
 
-        currentLanguage = language;
+        currentLanguage =
+            language;
 
 
+     
         localStorage.setItem(
             "siteLanguage",
             currentLanguage
         );
 
 
+   
         const html =
             document.documentElement;
 
@@ -77,28 +116,43 @@
         html.lang =
             currentLanguage;
 
+
         html.dir =
             currentLanguage === "ar"
                 ? "rtl"
                 : "ltr";
 
 
+       
         document.body.classList.remove(
             "lang-ar",
             "lang-en"
         );
+
 
         document.body.classList.add(
             "lang-" + currentLanguage
         );
 
 
+        
         const languageData =
             translations[currentLanguage];
 
 
+        if (!languageData) {
+
+            console.error(
+                "Translation not found for:",
+                currentLanguage
+            );
+
+            return;
+
+        }
+
+ 
         if (
-            languageData &&
             languageData.page &&
             languageData.page.title
         ) {
@@ -108,9 +162,11 @@
 
         }
 
-
+ 
         document
-            .querySelectorAll("[data-i18n]")
+            .querySelectorAll(
+                "[data-i18n]"
+            )
             .forEach(function (element) {
 
                 const key =
@@ -118,13 +174,18 @@
                         "data-i18n"
                     );
 
+
                 const value =
                     getTranslation(
                         languageData,
                         key
                     );
 
-                if (value !== undefined) {
+
+                if (
+                    value !== undefined &&
+                    value !== null
+                ) {
 
                     element.textContent =
                         value;
@@ -133,9 +194,11 @@
 
             });
 
-
+ 
         document
-            .querySelectorAll("[data-i18n-html]")
+            .querySelectorAll(
+                "[data-i18n-html]"
+            )
             .forEach(function (element) {
 
                 const key =
@@ -143,13 +206,18 @@
                         "data-i18n-html"
                     );
 
+
                 const value =
                     getTranslation(
                         languageData,
                         key
                     );
 
-                if (value !== undefined) {
+
+                if (
+                    value !== undefined &&
+                    value !== null
+                ) {
 
                     element.innerHTML =
                         value;
@@ -159,6 +227,7 @@
             });
 
 
+    
         document
             .querySelectorAll(
                 "[data-i18n-placeholder]"
@@ -170,13 +239,18 @@
                         "data-i18n-placeholder"
                     );
 
+
                 const value =
                     getTranslation(
                         languageData,
                         key
                     );
 
-                if (value !== undefined) {
+
+                if (
+                    value !== undefined &&
+                    value !== null
+                ) {
 
                     element.placeholder =
                         value;
@@ -186,8 +260,11 @@
             });
 
 
+    
         document
-            .querySelectorAll("[data-i18n-alt]")
+            .querySelectorAll(
+                "[data-i18n-alt]"
+            )
             .forEach(function (element) {
 
                 const key =
@@ -195,13 +272,18 @@
                         "data-i18n-alt"
                     );
 
+
                 const value =
                     getTranslation(
                         languageData,
                         key
                     );
 
-                if (value !== undefined) {
+
+                if (
+                    value !== undefined &&
+                    value !== null
+                ) {
 
                     element.alt =
                         value;
@@ -211,30 +293,37 @@
             });
 
 
-        const languageText =
-            document.getElementById(
-                "languageText"
+     
+        const languageTexts =
+            document.querySelectorAll(
+                ".languageText"
             );
 
 
         if (
-            languageText &&
             languageData.nav &&
             languageData.nav.language
         ) {
 
-            languageText.textContent =
-                languageData.nav.language;
+            languageTexts.forEach(
+                function (element) {
+
+                    element.textContent =
+                        languageData.nav.language;
+
+                }
+            );
 
         }
 
-
+ 
         if (updateUrl) {
 
             const url =
                 new URL(
                     window.location.href
                 );
+
 
             url.searchParams.set(
                 "lang",
@@ -250,7 +339,8 @@
 
         }
 
-
+ 
+     
         window.dispatchEvent(
             new CustomEvent(
                 "languageChanged",
@@ -265,76 +355,76 @@
 
     }
 
+ 
+    function setupLanguageButtons() {
 
-    function setupLanguageButton() {
-
-        let languageBtn =
-            document.getElementById(
-                "languageBtn"
+        const languageButtons =
+            document.querySelectorAll(
+                ".language-btn"
             );
 
 
-        if (!languageBtn) {
+        if (
+            !languageButtons.length
+        ) {
+
+            console.warn(
+                "No language buttons found."
+            );
+
             return;
+
         }
 
 
-        /*
-         * Remove any old event listeners
-         * attached by previous language code.
-         */
-        const newLanguageBtn =
-            languageBtn.cloneNode(true);
+        languageButtons.forEach(
+            function (button) {
 
+                button.addEventListener(
+                    "click",
+                    function (event) {
 
-        languageBtn.parentNode.replaceChild(
-            newLanguageBtn,
-            languageBtn
-        );
+                        event.preventDefault();
 
+                        event.stopPropagation();
 
-        languageBtn =
-            newLanguageBtn;
+ 
 
+                        const newLanguage =
+                            currentLanguage === "ar"
+                                ? "en"
+                                : "ar";
 
-        languageBtn.addEventListener(
-            "click",
-            function (event) {
+ 
 
-                event.preventDefault();
-                event.stopPropagation();
+                        applyLanguage(
+                            newLanguage,
+                            true
+                        );
 
-
-                const newLanguage =
-                    currentLanguage === "ar"
-                        ? "en"
-                        : "ar";
-
-
-                applyLanguage(
-                    newLanguage,
-                    true
+                    }
                 );
 
-            },
-            false
+            }
         );
 
     }
 
+ 
 
     function initLanguage() {
-
+ 
         applyLanguage(
             currentLanguage,
             false
         );
 
+ 
 
-        setupLanguageButton();
+        setupLanguageButtons();
 
     }
-
+ 
 
     if (
         document.readyState === "loading"
