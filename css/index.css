@@ -707,8 +707,9 @@ a {
 }
 
 .floating-btn {
-  width: 52px;
-  height: 52px;
+  width: 69px;
+  height: 69px;
+  font-size:20px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -734,7 +735,7 @@ a {
 
 .floating-btn span {
   position: absolute;
-  right: 65px;
+  left: 65px;
   background: var(--black);
   color: var(--white);
   padding: 6px 12px;
